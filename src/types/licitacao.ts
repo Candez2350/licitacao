@@ -1,0 +1,63 @@
+export interface Licitacao {
+  idCompra: string;
+  numeroControlePNCP: string | null;
+  anoCompraPncp: number | null;
+  sequencialCompraPncp: number | null;
+  orgaoEntidadeCnpj: string | null;
+  orgaoSubrogadoCnpj: string | null;
+  codigoOrgao: number | null;
+  orgaoEntidadeRazaoSocial: string | null;
+  orgaoSubrogadoRazaoSocial: string | null;
+  orgaoEntidadeEsferaId: string | null;
+  orgaoSubrogadoEsferaId: string | null;
+  orgaoEntidadePoderId: string | null;
+  orgaoSubrogadoPoderId: string | null;
+  unidadeOrgaoCodigoUnidade: string | null;
+  unidadeSubrogadaCodigoUnidade: string | null;
+  unidadeOrgaoNomeUnidade: string | null;
+  unidadeSubrogadaNomeUnidade: string | null;
+  unidadeOrgaoUfSigla: string | null;
+  unidadeSubrogadaUfSigla: string | null;
+  unidadeOrgaoMunicipioNome: string | null;
+  unidade_subrogada_municipio_nome: string | null;
+  unidadeOrgaoCodigoIbge: number | null;
+  unidadeSubrogadaCodigoIbge: number | null;
+  numeroCompra: string | null;
+  modalidadeIdPncp: number | null;
+  codigoModalidade: number | null;
+  modalidadeNome: string | null;
+  srp: boolean | null;
+  modoDisputaIdPncp: number | null;
+  codigoModoDisputa: number | null;
+  amparoLegalCodigoPncp: number | null;
+  amparoLegalNome: string | null;
+  amparoLegalDescricao: string | null;
+  informacaoComplementar: string | null;
+  processo: string | null;
+  objetoCompra: string | null;
+  existeResultado: boolean | null;
+  orcamentoSigilosoCodigo: number | null;
+  orcamentoSigilosoDescricao: string | null;
+  situacaoCompraIdPncp: number | null;
+  situacaoCompraNomePncp: string | null;
+  tipoInstrumentoConvocatorioCodigoPncp: number | null;
+  tipoInstrumentoConvocatorioNome: string | null;
+  modoDisputaNomePncp: string | null;
+  valorTotalEstimado: number | null;
+  valorTotalHomologado: number | null;
+  dataInclusaoPncp: string | Date | null;
+  dataAtualizacaoPncp: string | Date | null;
+  dataPublicacaoPncp: string | Date | null;
+  dataAberturaPropostaPncp: string | Date | null;
+  dataEncerramentoPropostaPncp: string | Date | null;
+  contratacaoExcluida: boolean | null;
+}
+
+export interface LicitacaoFiltros {
+  dataInicial: string | Date;
+  dataFinal: string | Date;
+  codigoModalidade?: number;
+  pagina?: number;
+  tamanhoPagina?: number;
+  tipoObjeto?: string;
+}

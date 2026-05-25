@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Licitacao {
+  idCompra                              String   @id
+  numeroControlePNCP                    String?
+  anoCompraPncp                         Int?
+  sequencialCompraPncp                  Int?
+  orgaoEntidadeCnpj                     String?
+  orgaoSubrogadoCnpj                    String?
+  codigoOrgao                           Int?
+  orgaoEntidadeRazaoSocial              String?
+  orgaoSubrogadoRazaoSocial             String?
+  orgaoEntidadeEsferaId                 String?
+  orgaoSubrogadoEsferaId                String?
+  orgaoEntidadePoderId                  String?
+  orgaoSubrogadoPoderId                 String?
+  unidadeOrgaoCodigoUnidade             String?
+  unidadeSubrogadaCodigoUnidade         String?
+  unidadeOrgaoNomeUnidade               String?
+  unidadeSubrogadaNomeUnidade           String?
+  unidadeOrgaoUfSigla                   String?
+  unidadeSubrogadaUfSigla               String?
+  unidadeOrgaoMunicipioNome             String?
+  unidade_subrogada_municipio_nome      String?
+  unidadeOrgaoCodigoIbge                Int?
+  unidadeSubrogadaCodigoIbge            Int?
+  numeroCompra                          String?
+  modalidadeIdPncp                      Int?
+  codigoModalidade                      Int?
+  modalidadeNome                        String?
+  srp                                   Boolean?
+  modoDisputaIdPncp                     Int?
+  codigoModoDisputa                     Int?
+  amparoLegalCodigoPncp                 Int?
+  amparoLegalNome                       String?
+  amparoLegalDescricao                  String?
+  informacaoComplementar                String?
+  processo                              String?
+  objetoCompra                          String?
+  existeResultado                       Boolean?
+  orcamentoSigilosoCodigo               Int?
+  orcamentoSigilosoDescricao            String?
+  situacaoCompraIdPncp                  Int?
+  situacaoCompraNomePncp                String?
+  tipoInstrumentoConvocatorioCodigoPncp Int?
+  tipoInstrumentoConvocatorioNome       String?
+  modoDisputaNomePncp                   String?
+  valorTotalEstimado                    Float?
+  valorTotalHomologado                  Float?
+  dataInclusaoPncp                      DateTime?
+  dataAtualizacaoPncp                   DateTime?
+  dataPublicacaoPncp                    DateTime?
+  dataAberturaPropostaPncp              DateTime?
+  dataEncerramentoPropostaPncp          DateTime?
+  contratacaoExcluida                   Boolean?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  itens     Item[]
+  arquivos  Arquivo[]
+}
+
+model Arquivo {
+  id                     String    @id @default(cuid())
+  licitacaoId            String
+  uri                    String?
+  url                    String?
+  statusAtivo            Boolean?
+  dataPublicacaoPncp     DateTime?
+  titulo                 String?
+  tipoDocumentoNome      String?
+  tipoDocumentoDescricao String?
+
+  licitacao Licitacao @relation(fields: [licitacaoId], references: [idCompra], onDelete: Cascade)
+}
+
+model Item {
+  id                     String    @id @default(cuid())
+  licitacaoId            String
+  numeroItem             Int?
+  descricao              String?
+  materialOuServico      String?
+  materialOuServicoNome  String?
+  valorUnitarioEstimado  Float?
+  valorTotal             Float?
+  quantidade             Float?
+  unidadeMedida          String?
+  criterioJulgamentoNome String?
+  situacaoCompraItemNome String?
+  dataInclusao           DateTime?
+  itemMacro             String?
+  categoriaGeral        String?
+  statusCategorizacao   String    @default("PENDENTE")
+
+  licitacao Licitacao @relation(fields: [licitacaoId], references: [idCompra], onDelete: Cascade)
+}

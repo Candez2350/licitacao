@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Painel de Licitações RJ - Inteligência de Mercado
 
-## Getting Started
+Este é um painel avançado para monitoramento e análise de licitações públicas do Estado do Rio de Janeiro, utilizando dados oficiais do PNCP (Portal Nacional de Contratações Públicas).
 
-First, run the development server:
+## 🚀 Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Monitoramento em Tempo Real**: Captura de licitações diretamente da API do PNCP.
+- **Sincronização Completa**: Download automático de itens e arquivos (editais/anexos) para o banco de dados local.
+- **Categorização via IA**: Utiliza Inteligência Artificial (OpenRouter/OpenAI) para processar descrições brutas e extrair:
+  - **Item Macro**: Nome simplificado e padronizado do produto.
+  - **Categoria Geral**: Agrupamento por área de atuação (TI, Construção, Alimentação, etc).
+- **Inteligência de Mercado**: Painel exclusivo para busca filtrada por categorias mapeadas por IA, facilitando a descoberta de oportunidades específicas.
+- **Gestão de Favoritos**: Salve licitações de interesse para acompanhamento posterior.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Stack Tecnológica
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: [Next.js 15+](https://nextjs.org) (App Router)
+- **Linguagem**: TypeScript
+- **Banco de Dados**: PostgreSQL / SQLite com [Prisma ORM](https://www.prisma.io/)
+- **Estilização**: Tailwind CSS
+- **IA**: OpenAI SDK + OpenRouter (Modelo: `openrouter/owl-alpha`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏁 Como Iniciar
 
-## Learn More
+1. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Configure o ambiente**:
+   Crie um arquivo `.env` na raiz com as seguintes variáveis:
+   ```env
+   DATABASE_URL="file:./dev.db"
+   OPENROUTER_API_KEY="sua_chave_aqui"
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Sincronize o Banco de Dados**:
+   ```bash
+   npx prisma db push
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Inicie o servidor de desenvolvimento**:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+5. **Acesse**:
+   Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Estrutura de Pastas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/`: Rotas e páginas da aplicação (Next.js App Router).
+- `app/api/`: Endpoints de backend (Categorização, Busca Inteligente, Sync).
+- `src/components/`: Componentes de interface (Tabelas, Filtros, Dashboards).
+- `src/services/`: Lógica de negócio e integração (Banco de Dados, Sincronização PNCP).
+- `prisma/`: Definição do schema e migrations.
