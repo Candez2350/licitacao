@@ -101,7 +101,7 @@ export default async function LicitacaoPage({ params }: LicitacaoPageProps) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Main Content Area */}
@@ -333,6 +333,43 @@ export default async function LicitacaoPage({ params }: LicitacaoPageProps) {
                   <p className="text-[10px] font-black text-muted uppercase tracking-widest mb-2">Sigilo do Orçamento</p>
                   <p className="text-sm font-bold text-foreground">{licitacao.orcamentoSigilosoDescricao || 'Aberto'}</p>
                 </div>
+              </div>
+            </div>
+
+            {/* Portal PNCP Redirect Card */}
+            <div className="bg-card rounded-2xl shadow-premium border border-card-border overflow-hidden">
+              <div className="px-6 py-4 bg-secondary/30 border-b border-card-border flex items-center gap-3">
+                <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </div>
+                <h3 className="font-bold text-foreground">Página da Licitação</h3>
+              </div>
+              <div className="p-6 space-y-4">
+                <p className="text-xs font-medium text-muted leading-relaxed">
+                  Acesse a publicação oficial desta licitação diretamente no Portal Nacional de Contratações Públicas (PNCP) para consultar o edital original, histórico de retificações e andamento oficial.
+                </p>
+                {licitacao.orgaoEntidadeCnpj && licitacao.anoCompraPncp && licitacao.sequencialCompraPncp ? (
+                  <a
+                    href={`https://pncp.gov.br/app/editais/${licitacao.orgaoEntidadeCnpj}/${licitacao.anoCompraPncp}/${licitacao.sequencialCompraPncp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-primary hover:bg-primary/95 text-white hover:text-white rounded-xl text-sm font-black transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] duration-200"
+                  >
+                    <span>Ir para o Portal PNCP</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-2 p-3 bg-destructive/10 text-destructive rounded-lg text-xs font-semibold">
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span>Dados insuficientes para gerar o link do portal.</span>
+                  </div>
+                )}
               </div>
             </div>
 
