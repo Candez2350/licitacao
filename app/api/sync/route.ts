@@ -5,11 +5,26 @@ import { syncLicitacaoItens } from '../../../src/services/pncpSync';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 minutes max duration on Vercel
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    // Validar autorização em produção
+    if (process.env.NODE_ENV === 'production') {
+      const authHeader = request.headers.get('authorization');
+      const cronSecret = process.env.CRON_SECRET;
+      if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+        console.warn('[SYNC] Unauthorized sync request blocked.');
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+    }
+
+    // Obter quantidade de dias do parâmetro de busca (padrão: 2 dias)
+    const { searchParams } = new URL(request.url);
+    const daysParam = searchParams.get('days');
+    const days = daysParam && !isNaN(parseInt(daysParam, 10)) ? Math.max(1, parseInt(daysParam, 10)) : 2;
+
     const today = new Date();
-    const past30Days = new Date(today);
-    past30Days.setDate(past30Days.getDate() - 30);
+    const pastDays = new Date(today);
+    pastDays.setDate(pastDays.getDate() - days);
 
     const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
@@ -136,7 +151,7 @@ export async function GET() {
       const params = new URLSearchParams({
         pagina: page.toString(),
         tamanhoPagina: '100',
-        dataPublicacaoPncpInicial: formatDate(past30Days),
+        dataPublicacaoPncpInicial: formatDate(pastDays),
         dataPublicacaoPncpFinal: formatDate(today),
         codigoModalidade: modalidade,
         unidadeOrgaoUfSigla: 'RJ'
